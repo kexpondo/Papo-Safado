@@ -1,151 +1,227 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Papo Safado 💋</title>
   <style>
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 0;
+    :root{
+      --bg:#000;
+      --accent:#8a2be2; /* roxo */
+      --accent-2:#b36cff;
+      --card:#111;
+      --text:#fff;
     }
-    header img {
-      width: 100%;
-      max-height: 320px;
-      object-fit: cover;
-      border-bottom: 3px solid #ff007f;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
     }
-    h1 {
-      margin-top: 20px;
-      font-size: 30px;
-      color: #ff69b4;
+    header img{
+      width:100%;
+      max-height:320px;
+      object-fit:cover;
+      display:block;
+      border-bottom:3px solid var(--accent);
     }
-    p {
-      font-size: 16px;
-      color: #ddd;
+    .wrap{max-width:1000px;margin:0 auto;padding:22px}
+    h1{margin:18px 0 6px;font-size:32px;color:var(--accent-2)}
+    p.lead{color:#dcd6e8;margin:0 0 18px}
+    .pacotes{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin-top:18px}
+    .pacote{
+      width:260px;
+      background:linear-gradient(180deg,#0f0f12 0,#141218 100%);
+      border:2px solid rgba(138,43,226,0.12);
+      border-radius:18px;
+      padding:16px;
+      box-shadow:0 8px 24px rgba(138,43,226,0.06);
+      cursor:pointer;
+      transition:transform .18s ease,box-shadow .18s ease,background .18s;
     }
-    .container {
-      margin-top: 30px;
+    .pacote:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(138,43,226,0.18)}
+    .pacote h3{margin:0 0 8px;font-size:18px;color:var(--accent-2)}
+    .pacote p{margin:0 0 10px;color:#d0cbe1;font-size:14px}
+    .price{font-weight:700;color:var(--accent-2);font-size:16px}
+    .btn-row{display:flex;justify-content:center;margin-top:22px}
+    .btn{
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:#fff;border:none;padding:12px 20px;border-radius:999px;font-size:16px;cursor:pointer;
+      box-shadow:0 8px 22px rgba(138,43,226,0.15);
     }
-    .pacotes {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 30px;
-    }
-    .pacote {
-      background-color: #1a1a1a;
-      border: 2px solid #ff007f;
-      border-radius: 25px;
-      padding: 15px 25px;
-      width: 260px;
-      color: #fff;
-      transition: 0.3s;
-      cursor: pointer;
-      box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
-    }
-    .pacote:hover {
-      background-color: #ff007f;
-      transform: scale(1.05);
-    }
-    button {
-      background-color: #ff007f;
-      color: #fff;
-      border: none;
-      padding: 12px 25px;
-      font-size: 18px;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: 0.3s;
-      margin-top: 25px;
-    }
-    button:hover {
-      background-color: #e60073;
-      transform: scale(1.05);
-    }
-    footer {
-      margin-top: 50px;
-      font-size: 14px;
-      color: #777;
+    .support{margin-top:10px;color:#bfb6d9}
+    footer{margin:40px 0 80px;text-align:center;color:#8b86a0;font-size:13px}
+
+    /* Modal */
+    .modal-back{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:40}
+    .modal{width:96%;max-width:520px;background:#08060a;border:1px solid rgba(255,255,255,0.03);border-radius:14px;padding:18px;color:#eee}
+    .modal h4{margin:0 0 6px;color:var(--accent-2)}
+    .modal p{color:#d2ccdf;font-size:14px}
+    .modal .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;justify-content:flex-end}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:10px;color:#ddd;cursor:pointer}
+    .small{font-size:13px;color:#bdb6cf;margin-top:10px}
+
+    @media(max-width:640px){
+      h1{font-size:24px}
+      .pacote{width:90%}
     }
   </style>
 </head>
 <body>
+  <!-- imagem topo (usar link direto i.imgur.com/ID.ext) -->
   <header>
-    <img src="https://i.imgur.com/1Q1RfMU.jpeg" alt="Banner Papo Safado">
+    <img src="https://i.imgur.com/6Q1RfMU.png" alt="Banner Papo Safado" id="topImage" onerror="imageError()">
   </header>
 
-  <h1>Papo Safado 🔥</h1>
-  <p>Conteúdos +18 exclusivos. Escolha o pacote e receba acesso automático no Telegram após o pagamento.</p>
+  <main class="wrap">
+    <h1>Papo Safado 🔥</h1>
+    <p class="lead">Conteúdos +18 exclusivos. Escolha o pacote e finalize o pagamento via PIX para receber acesso.</p>
 
-  <div class="pacotes">
-  <div class="pacote" onclick="comprar('Christian Salles', 'https://t.me/+jMwghTKFd6A0ZWI5')">
-    <h3>💋 Christian Salles — <strong style="color:#ff69b4;">R$ 14,90</strong></h3>
-    <p>Últimos 9 acessos</p>
-  </div>
+    <div class="pacotes" id="pacotes">
+      <!-- pacotes (nome — valor) -->
+      <div class="pacote" data-name="Christian Salles" data-chan="https://t.me/+jMwghTKFd6A0ZWI5" data-price="14.90" onclick="selectPackage(event)">
+        <h3>💋 Christian Salles — <span class="price">R$ 14,90</span></h3>
+        <p>Conteúdo exclusivo + Acesso VIP</p>
+      </div>
 
-  <div class="pacote" onclick="comprar('Lucas Dias', 'https://t.me/+hoau9C5Opa04MGYx')">
-    <h3>🔥 Lucas Dias — <strong style="color:#ff69b4;">R$ 9,76</strong></h3>
-    <p>Conteúdo completo</p>
-  </div>
+      <div class="pacote" data-name="Lucas Dias" data-chan="https://t.me/+hoau9C5Opa04MGYx" data-price="9.76" onclick="selectPackage(event)">
+        <h3>🔥 Lucas Dias — <span class="price">R$ 9,76</span></h3>
+        <p>Conteúdo + Divulgação</p>
+      </div>
 
-  <div class="pacote" onclick="comprar('Alex Mendes', 'https://t.me/+2OOUmt4JyaU1NWUx')">
-    <h3>💦 Alex Mendes — <strong style="color:#ff69b4;">R$ 12,85</strong></h3>
-    <p>Últimos 5 acessos VIP</p>
-  </div>
+      <div class="pacote" data-name="Alex Mendes" data-chan="https://t.me/+2OOUmt4JyaU1NWUx" data-price="12.85" onclick="selectPackage(event)">
+        <h3>💦 Alex Mendes — <span class="price">R$ 12,85</span></h3>
+        <p>Conteúdo + Semana Premium</p>
+      </div>
 
-  <div class="pacote" onclick="comprar('Aryan Almeida', 'https://t.me/+FoJmi6Ualu9lNTVh')">
-    <h3>🍑 Aryan Almeida — <strong style="color:#ff69b4;">R$ 7,98</strong></h3>
-    <p>Exclusivo do papo safado </p>
-  </div>
+      <div class="pacote" data-name="Aryan Almeida" data-chan="https://t.me/+FoJmi6Ualu9lNTVh" data-price="7.98" onclick="selectPackage(event)">
+        <h3>🍑 Aryan Almeida — <span class="price">R$ 7,98</span></h3>
+        <p>Conteúdo + Divulgação Premium</p>
+      </div>
 
-  <div class="pacote" onclick="comprar('Vitor Felisberto', 'https://t.me/+2FRcmWHUGiExNmQx')">
-    <h3>🔥 Vitor Felisberto — <strong style="color:#ff69b4;">R$ 9,90</strong></h3>
-    <p>Exclusivo do papo safado</p>
-  </div>
+      <div class="pacote" data-name="Vitor Felisberto" data-chan="https://t.me/+2FRcmWHUGiExNmQx" data-price="9.90" onclick="selectPackage(event)">
+        <h3>🔥 Vitor Felisberto — <span class="price">R$ 9,90</span></h3>
+        <p>Acesso exclusivo + Conteúdo Novo</p>
+      </div>
 
-  <div class="pacote" onclick="comprar('Lz tamas', 'https://t.me/+M73A9Te8EqNhMDNh')">
-    <h3>💋 Lz tamas — <strong style="color:#ff69b4;">R$ 10,91</strong></h3>
-    <p>EXCLUSIVO E LIMITADO DO PAPO SAFADO</p>
-  </div>
+      <div class="pacote" data-name="Lz tamas" data-chan="https://t.me/+M73A9Te8EqNhMDNh" data-price="10.91" onclick="selectPackage(event)">
+        <h3>💋 Lz tamas — <span class="price">R$ 10,91</span></h3>
+        <p>Conteúdo VIP + Divulgação</p>
+      </div>
 
-  <div class="pacote" onclick="comprar('Michel Negão', 'https://t.me/+tfdOvKkALG4zODEx')">
-    <h3>🔥 Michel Negão — <strong style="color:#ff69b4;">R$ 14,70</strong></h3>
-    <p>MAIS ACESSADO</p>
-  </div>
+      <div class="pacote" data-name="Michel Negão" data-chan="https://t.me/+tfdOvKkALG4zODEx" data-price="14.70" onclick="selectPackage(event)">
+        <h3>🔥 Michel Negão — <span class="price">R$ 14,70</span></h3>
+        <p>Conteúdo exclusivo + Semana VIP</p>
+      </div>
 
-  <div class="pacote" onclick="comprar('PS+', 'https://t.me/+Q9M8LgD3FF1hY2Rh')">
-    <h3>💦 Ps+ (Nosso VIP) — <strong style="color:#ff69b4;">R$ 6,79</strong></h3>
-    <p>Acesso total ao grupo principal</p>
-  </div>
-  </div>
+      <div class="pacote" data-name="PS+" data-chan="https://t.me/+Q9M8LgD3FF1hY2Rh" data-price="6.79" onclick="selectPackage(event)">
+        <h3>💦 Ps+ (Nosso VIP) — <span class="price">R$ 6,79</span></h3>
+        <p>Acesso total ao grupo principal</p>
+      </div>
+    </div>
 
-    <button onclick="acessar()">Acessar Área VIP 💋</button>
-  </div>
+    <div class="btn-row">
+      <button class="btn" id="mainAction" onclick="openSelectedPayment()" disabled>Acessar / Gerar PIX</button>
+    </div>
+
+    <p class="support">car: @joaodoportal</p>
+  </main>
 
   <footer>
-    <p>© 2025 Papo Safado | Todos os direitos reservados</p>
+    © 2025 Papo Safado | Todos os direitos reservados
   </footer>
 
+  <!-- Modal confirm / instruções -->
+  <div class="modal-back" id="modalBack">
+    <div class="modal" role="dialog" aria-modal="true">
+      <h4 id="modalTitle">Finalizar pagamento</h4>
+      <p id="modalText">Você será direcionado para o pagamento PIX. Após pagar, clique em "Já paguei" e envie o comprovante (link para formulário).</p>
+
+      <div class="actions" style="display:flex;justify-content:flex-end;gap:10px;margin-top:12px">
+        <button class="btn-ghost" onclick="closeModal()">Cancelar</button>
+        <button class="btn" id="payNowBtn" onclick="payNow()">Ir para pagamento</button>
+      </div>
+
+      <p class="small">Se o pagamento falhar, feche a janela e tente novamente. Depois de pagar, você deve enviar o comprovante no formulário para receber o link do canal.</p>
+    </div>
+  </div>
+
   <script>
-    function acessar() {
-      window.location.href = "https://pix.efi.bank/pix?data=00020126580014BR.GOV.BCB.PIX01366ee6cd2b-f7de-4bfd-96ab-d668f7060fc65204000053039865802BR5922KAYKY%20MARIANO%20DA%20SILVA6014RIO%20DE%20JANEIRO62070503***6304E689";
+    // sua chave/ID pix (só referencia — usamos link de pagamento externo)
+    const PIX_KEY = "6ee6cd2b-f7de-4bfd-96ab-d668f7060fc6"; // sua chave aleatória como forneceu
+
+    // Formulário para envio do comprovante (crie um Google Form com upload e cole aqui)
+    // exemplo: use seu próprio form URL. Eu deixei um espaço pra você colocar.
+    const FORM_URL = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform"; // substitua pelo seu form real
+
+    let selected = null;
+
+    function selectPackage(e){
+      // pega o elemento pai .pacote (em caso do clique em filho)
+      const el = e.currentTarget || e.target.closest('.pacote') || e.target;
+      // desmarca todos
+      document.querySelectorAll('.pacote').forEach(p=>p.style.outline='none');
+      // marca o selecionado (visual)
+      el.style.outline = "3px solid rgba(138,43,226,0.25)";
+      selected = {
+        name: el.getAttribute('data-name'),
+        chan: el.getAttribute('data-chan'),
+        price: el.getAttribute('data-price')
+      };
+      document.getElementById('mainAction').disabled = false;
+      document.getElementById('mainAction').textContent = `Gerar PIX — R$ ${parseFloat(selected.price).toFixed(2)}`;
     }
 
-    function comprar(influencer, canal) {
-      alert(`Você selecionou o pacote de ${influencer}.\nFinalize o pagamento via PIX e será redirecionado ao canal correspondente.`);
-      setTimeout(() => {
-        acessar();
-        setTimeout(() => {
-          window.location.href = canal;
-        }, 6000); // 6 segundos após abrir o PIX redireciona pro Telegram
-      }, 1000);
+    function openSelectedPayment(){
+      if(!selected) return alert("Selecione um pacote primeiro.");
+      // atualiza o modal
+      document.getElementById('modalTitle').textContent = `Pagamento — ${selected.name}`;
+      document.getElementById('modalText').textContent = `Você será direcionado para gerar o PIX (R$ ${parseFloat(selected.price).toFixed(2)}). Após pagar, clique em "Já paguei" e envie o comprovante para receber o link do canal.`;
+      document.getElementById('modalBack').style.display = 'flex';
+      // habilita o botão do modal com ação correta
+      document.getElementById('payNowBtn').textContent = `Pagar R$ ${parseFloat(selected.price).toFixed(2)}`;
     }
+
+    function closeModal(){
+      document.getElementById('modalBack').style.display = 'none';
+    }
+
+    function payNow(){
+      // Abre página de pagamento externa (janela nova)
+      // aqui montamos um exemplo de URL. Ajuste conforme o provedor que você for usar.
+      // EU COLOCO UM MODELO: efipay/pix?data=... mas o correto é usar o link que Efí te fornecer
+      // Por enquanto, abrimos a URL genérica e instruímos o usuário a concluir o pagamento.
+      const amount = parseFloat(selected.price).toFixed(2);
+      // EXEMPLO: você deve substituir por link real do seu gateway que receba amount/tx.
+      // Se seu gateway aceita params, você pode usar algo do tipo:
+      // const payUrl = `https://pix.efi.bank/pix?key=${PIX_KEY}&amount=${amount}`;
+      // vou abrir numa nova aba:
+      const payUrl = `https://pix.efi.bank/pix?key=${PIX_KEY}`; // substitua por link oficial do Efí com amount se tiver
+      window.open(payUrl, "_blank");
+
+      // agora trocamos o modal para instruct/confirm
+      document.getElementById('modalTitle').textContent = "Concluiu o pagamento?";
+      document.getElementById('modalText').innerHTML = `Se você já pagou R$ ${amount}, clique em <b>"Já paguei"</b> para enviar o comprovante. Isso nos ajuda a liberar o acesso ao canal.`;
+      document.getElementById('payNowBtn').textContent = "Já paguei";
+      // altera ação do botão
+      document.getElementById('payNowBtn').onclick = function(){
+        // abre o formulário de envio de comprovante (o usuário envia o arquivo)
+        window.open(FORM_URL, "_blank");
+        // fechar modal
+        closeModal();
+        alert("Abra o formulário e envie o comprovante. Assim que confirmarmos, enviaremos o link do canal por mensagem.");
+      };
+    }
+
+    // caso a imagem do Imgur falhe, mostra imagem substituta
+    function imageError(){
+      const img = document.getElementById('topImage');
+      img.src = "https://i.imgur.com/6Q1RfMU.png"; // tenta de novo; se falhar, usa placeholder
+      img.onerror = function(){ img.src = "https://i.imgur.com/1eV8q6s.png"; } // placeholder genérico
+    }
+
   </script>
 </body>
 </html>
